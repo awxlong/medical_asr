@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Resultado de la Transcripción</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      pre {
+        white-space: pre-wrap;       /* CSS3 */
+        white-space: -moz-pre-wrap;   /* Firefox */
+        white-space: -pre-wrap;       /* Opera <7 */
+        white-space: -o-pre-wrap;     /* Opera 7 */
+        word-wrap: break-word;        /* IE */
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <h1 class="mb-4">Transcripción Generada</h1>
+      <!-- Panel 1: Reproductor de audio -->
+      <div class="card mb-4">
+        <div class="card-header">Audio Original</div>
+        <div class="card-body">
+          <audio controls>
+            <source src="{{ audio_url }}" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+          </audio>
+        </div>
+      </div>
+      <!-- Panel 2: Transcripción original (Whisper) -->
+      <div class="card mb-4">
+        <div class="card-header">Transcripción Original (Whisper)</div>
+        <div class="card-body">
+          <pre>{{ transcript_whisper | replace('\n', '<br>') | safe }}</pre>
+        </div>
+      </div>
+      <!-- Panel 3: Transcripción corregida (Apollo-7B) -->
+      <div class="card mb-4">
+        <div class="card-header">Transcripción Corregida y Anotada (Apollo-7B)</div>
+        <div class="card-body">
+          <pre>{{ transcript_apollo | replace('\n', '<br>') | safe }}</pre>
+        </div>
+      </div>
+      <a href="{{ url_for('upload_and_transcribe') }}" class="btn btn-secondary">Transcribir otro archivo</a>
+    </div>
+  </body>
+</html>
