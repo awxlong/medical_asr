@@ -4,7 +4,7 @@ Hay muchas obligaciones tediosas en el ámbito médico lo cual dificulta una int
 
 ## Demo
 
-<video src="demo/demo.mp4" controls></video>
+<img src="demo/demo.gif" alt="Demo of YachayMed" width="50%" />
 
 ## Explicación del sistema
 
