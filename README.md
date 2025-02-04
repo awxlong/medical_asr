@@ -21,15 +21,15 @@ Seguimos las recomendaciones publicadas en este estudio https://arxiv.org/abs/24
 Inspirado por este estudio, usamos openai-whisper para la primera fase de la transcripción de audio a texto, lo cual observamos varios errores en términos médicos, así como la falta de la identifficaión del interlocutor. Usar openai-whisper es debido a que es plurilingüe, así como la librería más accesible y versátil de integrar en nuestro sistema. 
 
 Después utilizamos un LLM llamado Apollo (https://arxiv.org/abs/2403.03640) para poder corregir estos errores e identificar el interlocutor. Elegir Apollo es justificado por varias razones:
-    - Es también plurilingüe
-    - Es un LLM relativamente ligero que puede ser ejecutado localmente en una laptop. Sus pesas cuestan alrededor de 7GB. Además, ofrece una versión cuantizada lo cual reduce la precisión de las pesas sin compromenter mucho la calidad del texto que puede producir. Cuantización garantiza asequibilidad en recursos computacionales restringidos. 
+1. Es también plurilingüe
+2. Es un LLM relativamente ligero que puede ser ejecutado localmente en una laptop. Sus pesas cuestan alrededor de 7GB. Además, ofrece una versión cuantizada lo cual reduce la precisión de las pesas sin compromenter mucho la calidad del texto que puede producir. Cuantización garantiza asequibilidad en recursos computacionales restringidos. 
 
 Como caso ejemplar, exploramos transcribir la conversación en este video https://www.youtube.com/watch?v=gpWmbBHetzg 
 
 ### Limitaciones
-Actualmente podemos ver que tanto Whisper y Apollo cometen errores de mencionar palabras nunca dichas, aunque a veces Apollo es capaz de inferir lo que la paciente se refería pero no dijo explícitamente. Tal vez usar un Apollo relativamente menos cuantizado (pero más caro de ejecutar) podría resolver algunas discrepancias. Apollo viene en varias versiones según https://huggingface.co/itlwas/Apollo-7B-Q4_K_M-GGUF/resolve/main/apollo-7b-q4_k_m.gguf
+Actualmente podemos ver que tanto Whisper y Apollo cometen errores de mencionar palabras nunca dichas, aunque a veces Apollo es capaz de inferir lo que la paciente se refería pero no dijo explícitamente. Tal vez usar un Apollo relativamente menos cuantizado (pero más caro de ejecutar) podría resolver algunas discrepancias. Apollo viene en varias versiones cuantizadas según https://huggingface.co/itlwas/Apollo-7B-Q4_K_M-GGUF/resolve/main/apollo-7b-q4_k_m.gguf
 
 Analizar el audio en segmentos en vez de toda la transcripción al mismo tiempo con una mejor ingenería de prompt como lo indica el estudio de Google también podría solucionar los problemas de precisión.
-### Extensiones futuras
 
+### Extensiones futuras
 Planeamos integrar la herramienta MedCAT del paquete CogStack https://github.com/CogStack/MedCAT para poder anotar automáticamente palabras claves de la transcripción y relacionarlos con alguna base de datos médicos. La visión es construir un sistema comprensivo similar a Sanivert de España https://ceur-ws.org/Vol-3729/p12_rev.pdf 
