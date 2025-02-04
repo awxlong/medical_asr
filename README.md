@@ -10,7 +10,7 @@ Hay muchas obligaciones tediosas en el ámbito médico lo cual dificulta una int
 ### Preinstalaciones
 Dependiendo de tu sistema operativo, hay algunas instalaciones que hay que hacer para ejecutar el sistema: 
 1. Linux: `sudo apt update && sudo apt install ffmpeg`. Mac: `brew install ffmpeg` y `brew install llama.cpp`
-2. Python: pip install Flask openai-whisper llama-cpp-python
+2. Python: `pip install Flask openai-whisper llama-cpp-python`
 3. `llama-cli --hf-repo itlwas/Apollo-7B-Q4_K_M-GGUF --hf-file apollo-7b-q4_k_m.gguf -p "Medicina e inteligencia artificial son "` según las instrucciones indicadas en https://huggingface.co/itlwas/Apollo-7B-Q4_K_M-GGUF
 
 Con estas librerías, debería ser suficiente convocar el sistema a través de `python app.py`.
