@@ -12,7 +12,10 @@ Dependiendo de tu sistema operativo, hay algunas instalaciones que hay que hacer
 1. Linux: `sudo apt update && sudo apt install ffmpeg`. Mac: `brew install ffmpeg` y `brew install llama.cpp`
 2. Python: `pip install Flask openai-whisper llama-cpp-python`
 3. `llama-cli --hf-repo itlwas/Apollo-7B-Q4_K_M-GGUF --hf-file apollo-7b-q4_k_m.gguf -p "Medicina e inteligencia artificial son "` según las instrucciones indicadas en https://huggingface.co/itlwas/Apollo-7B-Q4_K_M-GGUF
+<<<<<<< HEAD
 4. Seguir las instrucciones de descarga de MedSpaner en https://github.com/lcampillos/medspaner, el cual incluye `sudo apt-get install git-lfs` o `brew install git-lfs`, `pip install spacy textsearch torch transformers` y `python -m spacy download es_core_news_md`
+=======
+>>>>>>> dd93ae69cb77260002067d3d1dadb49b95e44fb5
 
 Con estas librerías, debería ser suficiente convocar el sistema a través de `python app.py`.
 
@@ -25,8 +28,11 @@ Después utilizamos un LLM llamado Apollo (https://arxiv.org/abs/2403.03640) par
 1. Es también plurilingüe
 2. Es un LLM relativamente ligero que puede ser ejecutado localmente en una laptop. Sus pesas cuestan alrededor de 7GB. Además, ofrece una versión cuantizada lo cual reduce la precisión de las pesas sin compromenter mucho la calidad del texto que puede producir. Cuantización garantiza asequibilidad en recursos computacionales restringidos. 
 
+<<<<<<< HEAD
 Después, usamos MedSpaner https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-024-05949-6 para anotar la transcripción y resaltar entidades relevantes del sistema. 
 
+=======
+>>>>>>> dd93ae69cb77260002067d3d1dadb49b95e44fb5
 Como caso ejemplar, exploramos transcribir la conversación en este video https://www.youtube.com/watch?v=gpWmbBHetzg 
 
 ### Limitaciones
@@ -36,7 +42,10 @@ Analizar el audio en segmentos en vez de toda la transcripción al mismo tiempo 
 
 ### Extensiones futuras
 Planeamos integrar la herramienta MedCAT del paquete CogStack https://github.com/CogStack/MedCAT para poder anotar automáticamente palabras claves de la transcripción y relacionarlos con alguna base de datos médicos. La visión es construir un sistema comprensivo similar a Sanivert de España https://ceur-ws.org/Vol-3729/p12_rev.pdf 
+<<<<<<< HEAD
 
 Para usar Medspanner, necesitas seguir las instrucciones mencionadas en el repo: https://github.com/lcampillos/medspaner.
 
 `python -m spacy download es_core_news_md`
+=======
+>>>>>>> dd93ae69cb77260002067d3d1dadb49b95e44fb5
