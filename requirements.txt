@@ -1,0 +1,7 @@
+Flask
+spacy
+textsearch
+torch
+transformers
+openai-whisper
+llama-cpp-python
