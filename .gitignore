@@ -1,4 +1,5 @@
 data/*
+static/uploads/*
 uploads/*
 *.pickle
 medspanner/*.pickle
