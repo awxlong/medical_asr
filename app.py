@@ -176,7 +176,6 @@ def annotate_text():
     try:
         # Get all form data
         text = request.form.get("text", "")
-        audio_url = request.form.get("audio_url", "")
         original_text = request.form.get("original_text", "")
         corrected_text = request.form.get("corrected_text", "")
         
@@ -197,7 +196,6 @@ def annotate_text():
 
         return render_template(
             "result.html",
-            audio_url=audio_url,
             transcript_whisper=original_text,
             transcript_apollo=corrected_text,
             annotated_text=annotated_text,

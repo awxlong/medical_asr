@@ -62,7 +62,6 @@
           <!-- Modified Form Section -->
           <form method="POST" action="{{ url_for('annotate_text') }}" onsubmit="return getContent()" name="input_form">
             <!-- Add Hidden Fields to Preserve Context -->
-            <input type="hidden" name="audio_url" value="{{ audio_url }}">
             <input type="hidden" name="original_text" value="{{ transcript_whisper }}">
             <input type="hidden" name="corrected_text" value="{{ transcript_apollo }}">
 
