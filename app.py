@@ -1,4 +1,5 @@
 import os
+import pdb
 import whisper
 from flask import Flask, request, render_template, redirect, url_for
 from markupsafe import Markup
@@ -114,9 +115,12 @@ def annotate_transcription(transcript: str, use_umls=True, use_nested=False, use
     annotated_html = Markup(EntsDict2html(text, EntitiesNoOverlap, LexiconData, NestedEntsCleaned, UMLSData))
     
     if use_nested:
-        AllFinalEntities = merge_dicts(AllFlatEnts, AllNestedEnts)
+        # Merge both dictionaries of nesting (outer) and nested entities to output in BRAT format
+        AllFinalEntities = merge_dicts(AllFlatEnts,AllNestedEnts)
     else:
         AllFinalEntities = AllFlatEnts
+
+    FinalHash = codeAttribute(AllFinalEntities)
 
     FinalHash = codeAttribute(AllFinalEntities)
     brat_data = convert2brat_gui(FinalHash, LexiconData if normalize else None, UMLSData if normalize else None)
@@ -162,54 +166,65 @@ def upload_and_transcribe():
             os.makedirs(static_uploads, exist_ok=True)
             os.rename(filepath, os.path.join(static_uploads, filename))
             
-            return render_template(
-                "result.html",
-                audio_url=audio_url,
-                transcript_whisper=transcript_whisper,
-                transcript_apollo=transcript_apollo
-            )
+            try:
+               
+                # pdb.set_trace()
+                # Perform annotation
+                transcript_apollo_annotated, annotation_data = annotate_transcription(
+                    transcript=transcript_apollo,
+                    use_nested=True,
+                    use_lexicon=True,
+                    normalize=True
+                )
+
+                return render_template(
+                    "result.html",
+                    audio_url=audio_url,
+                    transcript_whisper=transcript_whisper,
+                    transcript_apollo=transcript_apollo,
+                    transcript_apollo_annotated=transcript_apollo_annotated,
+                    ann_data=annotation_data,
+                )
+            except Exception as e:
+                app.logger.error(f"Annotation error: {str(e)}")
+                return render_template("error.html", error_message="Error processing annotation")
+
     return render_template("upload.html")
 
-@app.route("/annotate", methods=["POST"])
-def annotate_text():
-    """Handle text annotation from the integrated interface"""
-    try:
-        # Get all form data
-        text = request.form.get("text", "")
-        original_text = request.form.get("original_text", "")
-        corrected_text = request.form.get("corrected_text", "")
+# @app.route("/annotate_text", methods=["POST"])
+# def annotate_text():
+#     """Handle text annotation from the integrated interface"""
+#     try:
+#         # Get all form data
+#         text = request.form.get("text", "")
         
-        # Get annotation parameters
-        use_umls = "neu" in request.form
-        use_nested = "nest" in request.form
-        use_lexicon = "lex" in request.form
-        normalize = "norm" in request.form
-
-        # Perform annotation
-        annotated_text, annotation_data = annotate_transcription(
-            transcript=text,
-            use_umls=use_umls,
-            use_nested=use_nested,
-            use_lexicon=use_lexicon,
-            normalize=normalize
-        )
-
-        return render_template(
-            "result.html",
-            transcript_whisper=original_text,
-            transcript_apollo=corrected_text,
-            annotated_text=annotated_text,
-            ann_data=annotation_data,
-            selected_checkboxes={
-                "neu": use_umls,
-                "nest": use_nested,
-                "lex": use_lexicon,
-                "norm": normalize
-            }
-        )
-    except Exception as e:
-        app.logger.error(f"Annotation error: {str(e)}")
-        return render_template("error.html", error_message="Error processing annotation")
+#         # Get annotation parameters
+#         # use_umls = "neu" in request.form
+#         use_nested = "nest" in request.form
+#         use_lexicon = "lex" in request.form
+#         normalize = "norm" in request.form
+#         # pdb.set_trace()
+#         # Perform annotation
+#         annotated_text, annotation_data = annotate_transcription(
+#             transcript=text,
+#             use_nested=use_nested,
+#             use_lexicon=use_lexicon,
+#             normalize=normalize
+#         )
+#         # pdb.set_trace()
+#         return render_template(
+#             "result.html",
+#             annotated_text=annotated_text,
+#             ann_data=annotation_data,
+#             selected_checkboxes={
+#                 "nest": use_nested,
+#                 "lex": use_lexicon,
+#                 "norm": normalize
+#             }
+#         )
+#     except Exception as e:
+#         app.logger.error(f"Annotation error: {str(e)}")
+#         return render_template("error.html", error_message="Error processing annotation")
 
 @app.route('/ayuda')
 def ayuda():

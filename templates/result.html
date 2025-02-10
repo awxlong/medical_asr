@@ -1,180 +1,111 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <!-- Keep existing head section unchanged -->
-    <meta charset="utf-8">
-    <title>Resultado de la Transcripción</title>
+<head>
+    <title>YachayMed - Resultados</title>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/style.css">
-    <style>
-      /* Existing styles remain unchanged */
-    </style>
-  </head>
-  <body class="bg-light">
-    <div class="container py-5">
-      <!-- Header remains unchanged -->
-      <nav class="mb-4 text-center">
-        <h1 class="h3">YachayMed: Herramienta de anotación semántica médica</h1>
-      </nav>
+</head>
+<body>
+    <!-- Navigation (MedSpaNER original structure) -->
+    <nav>
+        <table border="0" align="center">
+            <tr>
+                <td><h1 class="center">YachayMed: Herramienta de anotación semántica médica</h1></td>
+            </tr>
+        </table>
+    </nav>
 
-      <!-- Audio Panel remains unchanged -->
+    <div class="container mt-4">
+      <!-- Audio Panel -->
       <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          Audio Original
-        </div>
-        <div class="card-body">
-          <audio controls class="w-100">
-            <source src="{{ audio_url }}" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
-          </audio>
-        </div>
+          <div class="card-header bg-primary text-white">
+              Audio Original
+          </div>
+          <div class="card-body">
+              <audio controls class="w-100">
+                  <source src="{{ audio_url }}" type="audio/mpeg">
+                  Tu navegador no soporta el elemento de audio.
+              </audio>
+          </div>
       </div>
-
-      <!-- Transcription Panels remain unchanged -->
+  
+      <!-- Transcription Panels -->
       <div class="row g-4 mb-4">
-        <!-- Original Transcription -->
-        <div class="col-md-6">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-secondary text-white">Transcripción Original (Whisper)</div>
-            <div class="card-body">
-              <pre>{{ transcript_whisper | replace('\n', '<br>') | safe }}</pre>
-            </div>
+          <div class="col-md-6">
+              <div class="card h-100 shadow-sm">
+                  <div class="card-header bg-secondary text-white">Transcripción Original (Whisper)</div>
+                  <div class="card-body">
+                      <pre style="white-space: pre-wrap;">{{ transcript_whisper | safe }}</pre>
+                  </div>
+              </div>
           </div>
-        </div>
-
-        <!-- Corrected Transcription -->
-        <div class="col-md-6">
-          <div class="card h-100 shadow-sm">
-            <div class="card-header bg-success text-white">Transcripción Corregida (Apollo-7B)</div>
-            <div class="card-body">
-              <pre>{{ transcript_apollo | replace('\n', '<br>') | safe }}</pre>
-            </div>
+          <div class="col-md-6">
+              <div class="card h-100 shadow-sm">
+                  <div class="card-header bg-success text-white">Transcripción Corregida (Apollo-7B)</div>
+                  <div class="card-body">
+                      <pre style="white-space: pre-wrap;">{{ transcript_apollo | safe }}</pre>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-
-      <!-- MedSpaNer Annotation Panel - Modified Section -->
-      <div class="card mb-4 shadow-sm annotation-card">
-        <div class="card-header bg-info text-white">
-          Anotación Médica (MedSpaNer)
-        </div>
-        <div class="card-body">
-          <!-- Modified Form Section -->
-          <form method="POST" action="{{ url_for('annotate_text') }}" onsubmit="return getContent()" name="input_form">
-            <!-- Add Hidden Fields to Preserve Context -->
-            <input type="hidden" name="original_text" value="{{ transcript_whisper }}">
-            <input type="hidden" name="corrected_text" value="{{ transcript_apollo }}">
-
-            <!-- Annotation Controls - Added Checkbox Names -->
-            <div class="row g-3 mb-3">
-              <div class="col-auto">
-                <div class="form-check custom-checkbox">
-                  <input class="form-check-input" type="checkbox" name="neu" id="neu" {% if selected_checkboxes and selected_checkboxes.neu %}checked{% endif %}>
-                  <label class="form-check-label" for="neu">Entidades UMLS</label>
-                </div>
-              </div>
-              <div class="col-auto">
-                <div class="form-check custom-checkbox">
-                  <input class="form-check-input" type="checkbox" name="nest" id="nest" {% if selected_checkboxes and selected_checkboxes.nest %}checked{% endif %}>
-                  <label class="form-check-label" for="nest">Entidades Anidadas</label>
-                </div>
-              </div>
-              <div class="col-auto">
-                <div class="form-check custom-checkbox">
-                  <input class="form-check-input" type="checkbox" name="lex" id="lex" {% if selected_checkboxes and selected_checkboxes.lex %}checked{% endif %}>
-                  <label class="form-check-label" for="lex">Usar Léxico</label>
-                </div>
-              </div>
-              <div class="col-auto">
-                <div class="form-check custom-checkbox">
-                  <input class="form-check-input" type="checkbox" name="norm" id="norm" {% if selected_checkboxes and selected_checkboxes.norm %}checked{% endif %}>
-                  <label class="form-check-label" for="norm">Normalizar</label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Text Input Area - Added Default Text -->
-            <div id="text_input" 
-                 class="mb-3" 
-                 name="text_input" 
-                 contenteditable="true"
-                 placeholder="Pegue o edite el texto aquí...">
-              {{ transcript_apollo | safe if transcript_apollo else '' }}
-            </div>
-            <textarea id="my-textarea" name="text" style="display:none"></textarea>
-
-            <!-- Action Buttons -->
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="submit" class="btn btn-custom">
-                  <i class="bi bi-gear"></i> Analizar Texto
-                </button>
-                <button type="button" class="btn btn-outline-secondary" onclick="clearText()">
-                  <i class="bi bi-trash"></i> Borrar
-                </button>
-              </div>
-              <div>
-                <a href="{{ url_for('ayuda') }}" class="btn btn-link">Ayuda</a>
-                <a href="{{ url_for('acerca_de') }}" class="btn btn-link">Acerca de</a>
-              </div>
-            </div>
-          </form>
-
-          <!-- Annotation Results -->
-          {% if annotated_text %}
-          <div class="mt-4">
-            <div class="alert alert-info mt-3">
-              <strong>Leyenda:</strong>
-              <span class="badge bg-danger">Patología</span>
-              <span class="badge bg-success">Medicamento</span>
-              <span class="badge bg-primary">Procedimiento</span>
-              <span class="badge bg-warning text-dark">Anatomía</span>
-            </div>
-            <div class="annotated-text p-3 border rounded bg-white">
-              {{ annotated_text | safe }}
-            </div>
-            <div class="mt-3" id="show-after-results">
-              <button class="btn btn-outline-primary" onclick="download()">
-                <i class="bi bi-download"></i> Descargar Anotaciones
-              </button>
-              <textarea id="annotations" name="annotations" style="display:none">{{ ann_data }}</textarea>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-
-      <!-- Footer remains unchanged -->
-      <div class="text-center text-muted mt-4 small">
-        <p class="mb-0"><b>Descargo de responsabilidad:</b> Esta herramienta se encuentra en desarrollo y no debe ser empleada para la toma de decisiones médicas.</p>
-      </div>
-    </div>
-
-    <!-- Scripts - Added Form Validation -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/code.js"></script>
-    <script>
-      function clearText() {
-        document.getElementById('text_input').innerText = '';
-        document.getElementById('show-after-results').classList.add('d-none');
-      }
       
-      function getContent() {
-        try {
-          const textInput = document.getElementById('text_input');
-          const textArea = document.getElementById('my-textarea');
-          textArea.value = textInput.innerText;
+      <!-- Intermediate Title with Logo -->
+      <table border="0" align="center" class="mb-4">
+        <tr>
+          <td style="padding-left: 20px;">
+            <h2>Anotación automática con: </h2>
+           </td>
+            <td>
+                <img src="../static/logo.jpg" style="max-width:250px; height:auto" alt="Logo"/>
+            </td>
+            
+        </tr>
+      </table>
+      <!-- MedSpaNER Interface -->
+      <form method="POST" action="" onsubmit="return getContent()" name='input_form'>
+          <!-- Checkbox Controls -->
           
-          if (!textArea.value.trim()) {
-            alert('Por favor ingrese texto para analizar');
-            return false;
-          }
-          return true;
-        } catch (error) {
-          console.error('Error:', error);
-          return false;
-        }
-      }
-    </script>
-  </body>
+  
+          <!-- Action Buttons -->
+          <div class="d-flex justify-content-center gap-3 mb-4">
+            <input type="button" class="css-button-2" onclick="clearText()" value="Borrar">
+            <input type="button" class="css-button" onclick="nav()" value="Analizar">
+            <a class="link" href="{{ url_for('ayuda') }}">Ayuda</a>
+            <a class="link" href="{{ url_for('acerca_de') }}">Acerca de</a>
+          </div>
+  
+          <!-- Text Input Area -->
+          <div id="text_input" name="text_input" class="mb-4" contenteditable="true" placeholder="Copia o escribe aquí un texto...">
+              {{ transcript_apollo_annotated | safe }}
+          </div>
+          <textarea id="my-textarea" name="text" style="display:none"></textarea>
+          <div class="loader" id="loader" title="Cargando..."></div>
+      </form>
+  
+      <!-- Results Section -->
+      <div id="show-after-results" class="hide text-center mb-4">
+          <input type="submit" class="css-button-2" onclick="download()" readonly value="Descargar">
+          <textarea id="annotations" name="annotations" style="display:none">{{ ann_data }}</textarea>
+      </div>
+  
+      <!-- Disclaimer and New File Button -->
+      <table class="advert" align="center">
+          <tr>
+              <td>
+                  <p class="text-muted small">
+                      <b>Descargo de responsabilidad</b>: Esta herramienta se encuentra en desarrollo y no debe ser empleada para la toma de decisiones médicas.
+                  </p>
+              </td>
+          </tr>
+      </table>
+      <div class="text-center mt-3">
+          <a href="{{ url_for('upload_and_transcribe') }}" class="btn btn-outline-primary">
+              Transcribir otro archivo
+          </a>
+      </div>
+  </div>
+          <script src="static/code.js"></script>
+</body>
 </html>

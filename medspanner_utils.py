@@ -1,28 +1,8 @@
-from flask import Flask, request, render_template
-from markupsafe import Markup
-from transformers import AutoTokenizer, AutoModelForTokenClassification
-
+from flask import request
 # Import annotation modules
-import sys
 from medspanner.annot_utils import *
 from medspanner.lexicon_tools import *
 from medspanner.spacy_tokenizer import * 
-
-# # list of exceptions and patterns to change according to task
-# EXCEPTIONS_LIST = "medspanner/list_except.txt"
-
-# # Read exceptions and save to hash
-# ExceptionsDict = read_exceptions_list(EXCEPTIONS_LIST)
-    
-# # Load the previously trained Transformers model using full path (no relative)
-# # model_checkpoint = "../models/roberta-es-clinical-trials-umls-7sgs-ner"
-
-# # Transformers tokenizer  
-# umls_tokenizer = AutoTokenizer.from_pretrained("medspaner/roberta-es-clinical-trials-umls-7sgs-ner")
-
-# # UMLS entities token classifier
-# umls_token_classifier = AutoModelForTokenClassification.from_pretrained("medspaner/roberta-es-clinical-trials-umls-7sgs-ner")
-
 
 def remove_overlap_gui(Hash):
 
@@ -449,7 +429,7 @@ def EntsDict2html(text, Hash, LexiconData, Nested, UMLSDataDict):
     return string
 
 
-# app = Flask(__name__)
+# app = Flask(__name__) 
 
 # @app.route('/', methods=['GET', 'POST'])
 # def gui():

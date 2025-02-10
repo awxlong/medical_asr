@@ -500,70 +500,6 @@ mark[data-title] {
 }
 
 
-/* Buttons */
-.css-button {
-  font-size: 12px;
-  border-radius: 5px;
-  border: solid 1px #0a837d;
-  color: #FFFFFF;
-  background: linear-gradient(180deg, #20b2ab 5%, #0a837d 100%); 
-  text-shadow: 1px 1px 0px #528ecc;
-  font-family: Arial, Helvetica, sans-serif;
-  cursor: pointer;
-  text-align: center;
-  user-select: none;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  display: block;
-  padding: 4px 10px;
-  border-right: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.css-button:hover {
-  background: linear-gradient(180deg, #468CCF 5%, #63B8EE 100%);
-}
-
-.css-button:active {
-  position: relative;
-  top: 1px;
-}
-
-.css-button-2 {
-  font-size: 11px;
-  border-radius: 5px;
-  border: solid 1px #ccc; 
-  color: #000000;
-  background: linear-gradient(180deg, #f8f8f8 5%, #eeeeee 100%); 
-  text-shadow: 1px 1px 0px #eeeeee;
-  font-family: Arial, Helvetica, sans-serif;
-  cursor: pointer;
-  text-align: center;
-  user-select: none;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  display: block;
-  padding: 4px 1px;
-}
-
-#clear.css-button-2 {
-  width: 5em;
-}
-
-.css-button-2:hover {
-  background: linear-gradient(180deg, #e0e8e1 5%, #eeeeee 100%);
-}
-
-/* Download button (show only after results can be downloaded) */
-div#show-after-results.show {
-  display: block;
-  position: absolute;
-  text-align: center;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
 
 div#show-after-results.hide {
   display: none;
@@ -588,29 +524,6 @@ div#show-after-results.hide {
   user-select: none;
 }
 
-/* Hide the browser's default checkbox */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  bottom:0;
-  left:0;
-  right: 0;
-  vertical-align: middle;
-  height: 15px;
-  width: 15px;
-  background-color: #f8f8f8;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-}
 
 /* On mouse-over, add a background color */
 .container:hover input ~ .checkmark {
@@ -646,3 +559,47 @@ div#show-after-results.hide {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 } 
+
+
+/* ---------- Button Fixes ---------- */
+/* Force button visibility */
+input.css-button,
+input.css-button-2 {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  transform: none !important;
+}
+
+/* Maintain original button styling */
+.css-button {
+  background-color: #4CAF50 !important; /* Green */
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 4px !important;
+}
+
+.css-button-2 {
+  background-color: #f44336 !important; /* Red */
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 4px !important;
+}   
+
+@media (max-width: 768px) {
+  /* Ensure button visibility on mobile */
+  input.css-button,
+  input.css-button-2 {
+      width: 100% !important;
+      margin: 5px 0 !important;
+  }
+  
+  /* Adjust table layout */
+  table[border="0"] tr td {
+      display: block;
+      width: 100%;
+      padding: 5px 0 !important;
+  }
+}
