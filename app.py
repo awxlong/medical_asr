@@ -191,41 +191,6 @@ def upload_and_transcribe():
 
     return render_template("upload.html")
 
-# @app.route("/annotate_text", methods=["POST"])
-# def annotate_text():
-#     """Handle text annotation from the integrated interface"""
-#     try:
-#         # Get all form data
-#         text = request.form.get("text", "")
-        
-#         # Get annotation parameters
-#         # use_umls = "neu" in request.form
-#         use_nested = "nest" in request.form
-#         use_lexicon = "lex" in request.form
-#         normalize = "norm" in request.form
-#         # pdb.set_trace()
-#         # Perform annotation
-#         annotated_text, annotation_data = annotate_transcription(
-#             transcript=text,
-#             use_nested=use_nested,
-#             use_lexicon=use_lexicon,
-#             normalize=normalize
-#         )
-#         # pdb.set_trace()
-#         return render_template(
-#             "result.html",
-#             annotated_text=annotated_text,
-#             ann_data=annotation_data,
-#             selected_checkboxes={
-#                 "nest": use_nested,
-#                 "lex": use_lexicon,
-#                 "norm": normalize
-#             }
-#         )
-#     except Exception as e:
-#         app.logger.error(f"Annotation error: {str(e)}")
-#         return render_template("error.html", error_message="Error processing annotation")
-
 @app.route('/ayuda')
 def ayuda():
     return render_template('ayuda.html')
