@@ -34,9 +34,8 @@ Actualmente podemos ver que tanto Whisper y Apollo cometen errores de mencionar 
 
 Analizar el audio en segmentos en vez de toda la transcripción al mismo tiempo con una mejor ingenería de prompt como lo indica el estudio de Google también podría solucionar los problemas de precisión.
 
+### Extensiones implementadas
+Hemos integrado MedSpaner. Para usar MedSpaner, necesitas seguir las instrucciones mencionadas en el repo: https://github.com/lcampillos/medspaner. ¡Muchas gracias a los autores por publicar MedSpaner! (No se olviden to dar una estrella a su repositorio)
+
 ### Extensiones futuras
-Planeamos integrar la herramienta MedCAT del paquete CogStack https://github.com/CogStack/MedCAT para poder anotar automáticamente palabras claves de la transcripción y relacionarlos con alguna base de datos médicos. La visión es construir un sistema comprensivo similar a Sanivert de España https://ceur-ws.org/Vol-3729/p12_rev.pdf 
-
-En vez de MedCAT, también podemos usar MedSpaner. Para usar MedSpaner, necesitas seguir las instrucciones mencionadas en el repo: https://github.com/lcampillos/medspaner.
-
 Futuras extensiones pueden incluir grabar el audio desde el celular
