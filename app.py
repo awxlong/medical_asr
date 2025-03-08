@@ -14,7 +14,7 @@ whisper_model = whisper.load_model("base")
 
 # Configurar el modelo Apollo (modelo cuantizado)
 # Asegúrate de que 'model_path' apunte al archivo descargado, por ejemplo:
-apollo_model_path = "/Users/awxlong/Library/Caches/llama.cpp/itlwas_Apollo-7B-Q4_K_M-GGUF_apollo-7b-q4_k_m.gguf" # medium size, balanced quality according to https://huggingface.co/tensorblock/Apollo-7B-GGUF. Next time should try Apollo-7B-Q5_K_M.gguf
+apollo_model_path = "path_to/itlwas_Apollo-7B-Q4_K_M-GGUF_apollo-7b-q4_k_m.gguf" # medium size, balanced quality according to https://huggingface.co/tensorblock/Apollo-7B-GGUF. Next time should try Apollo-7B-Q5_K_M.gguf
 apollo_model = Llama(
     model_path=apollo_model_path,
     n_ctx=2048,          # Ajusta según sea necesario
